@@ -4,15 +4,27 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+
 import com.android.chimpchat.adb.AdbBackend;
 import com.android.chimpchat.adb.AdbChimpDevice;
+import com.android.chimpchat.core.IChimpImage;
+import com.idle.LocationMain;
+import com.idle.LocationProducer;
+import com.saliency.ImageObj;
+import com.saliency.SaliencyUtils;
 import com.templatematch.MatchInterface;
 import com.templatematch.MatchResult;
 /**
- * smart monkey Èë¿ÚÀà
+ * smart monkey ï¿½ï¿½ï¿½ï¿½ï¿½
  * smart monkey
  *
  */
+
+
+
 public class runSmartmonkey {
 	private static AdbChimpDevice device;
 	private static AdbBackend adb;
@@ -29,11 +41,48 @@ public class runSmartmonkey {
 		
 	}
 	/*
-	 * ²âÊÔ·½·¨
+	 * ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½
 	 */
 	public void run(String deviceId,int maxstep,int knum,int maxtime){
 		//run("test","test");
 		System.out.println("Start Smart Monkey!");
+	}
+	
+	public static void runIdle(String basePath,String deviceId,int maxstep){
+		System.out.println("start!");
+		if (adb==null){ 
+			adb = new AdbBackend(); 
+		    device = (AdbChimpDevice) adb.waitForConnection(8000,deviceId);
+		}
+		
+		device.takeSnapshot().writeToFile(basePath+"test","png");
+		Mat img= Highgui.imread(basePath+"tmp.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+		
+		LocationMain.init(img.width(), img.height(),device);
+		
+		boolean flag=true;
+		int count=0;
+		while(flag){
+			String srcfile = "SRC_"+System.currentTimeMillis();
+			device.takeSnapshot().writeToFile(basePath+srcfile,"png");
+			
+			SaliencyUtils su=new SaliencyUtils(basePath+srcfile+".png",basePath+srcfile+"_target.png",20,"sr","kmeans");
+			int[] result=su.getSaliencyResult().getResult();
+			LocationProducer lp=new LocationProducer(LocationMain.ringBuffer,result,LocationMain.lrp);
+			LocationMain.addSaliencyProducer(lp);
+			
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			LocationMain.addRandomProducer(img.width(), img.height());
+			count++;
+			if(count==maxstep)
+				flag=false;
+		}
+		LocationMain.shutdown();
 	}
 	
 	public static void run(String basePath,String deviceId) {
@@ -51,7 +100,7 @@ public class runSmartmonkey {
 			while ((line = reader.readLine()) != null) {
 				System.out.println(line);
 				/*
-				 * »ñÈ¡½Å±¾ÐÅÏ¢
+				 * ï¿½ï¿½È¡ï¿½Å±ï¿½ï¿½ï¿½Ï¢
 				 */
 				String operate = line.split("\t")[0]; 
 				String targetfile = line.split("\t")[1];
@@ -63,11 +112,11 @@ public class runSmartmonkey {
 				int scalex = Integer.parseInt(line.split("\t")[6]);
 				int scaley = Integer.parseInt(line.split("\t")[7]);
 				/*
-				 * ¶ÁÈ¡Ô­Ê¼Í¼Ïñ
+				 * ï¿½ï¿½È¡Ô­Ê¼Í¼ï¿½ï¿½
 				 */
 				device.takeSnapshot().writeToFile(basePath+srcfile,"png");
 				/*
-				 * Ö´ÐÐÍ¼ÏñÆ¥ÅäËã·¨
+				 * Ö´ï¿½ï¿½Í¼ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ã·¨
 				 */
 				MatchInterface tool = new MatchInterface
 						(basePath+srcfile,basePath+targetfile,startx,starty,endx,endy,scalex,scaley);
@@ -76,11 +125,11 @@ public class runSmartmonkey {
 				System.out.println(result.starty+result.height/2);
 				if(operate.equals("click")){
 					/*
-					 * Ö´ÐÐÃüÁî
+					 * Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					 */
 					device.touch(result.startx+result.width/2,result.starty+result.height/2,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
 					/*
-					 * µÈ´ýÆ¬¿Ì£¬¼ÌÐø½øÐÐ
+					 * ï¿½È´ï¿½Æ¬ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					 */
 					try{
 					    Thread thread = Thread.currentThread();

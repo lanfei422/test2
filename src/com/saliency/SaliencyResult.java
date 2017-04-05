@@ -40,5 +40,7 @@ public class SaliencyResult {
 			System.out.println("("+this.result[i]+","+this.result[i+1]+")");
 		}
 	}
-
+	public int[] getResult(){
+		return result;
+	}
 }

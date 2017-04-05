@@ -79,9 +79,9 @@ public class SrAlgorithm extends SaliencyStrategy{
 		Imgproc.threshold(tmp3, saliencyMap, threshold, 255, Imgproc.THRESH_BINARY);
 	    new findMarkUtil();
 	    int nums[] = null;
-	    if(method == "kmeans"){
+	    if(method.equals("kmeans")){
 	    	nums = findMarkUtil.findMarkUtil_kmeans(saliencyMap,k_num,255,0,5);
-	    }else if(method == "random"){
+	    }else if(method .equals( "random")){
 	    	nums = findMarkUtil.findMarkUtil_random(saliencyMap,k_num,255);
 	    }
 	    result.setK_num(k_num);

@@ -9,7 +9,7 @@ import com.android.chimpchat.adb.AdbChimpDevice;
 import com.templatematch.MatchInterface;
 import com.templatematch.MatchResult;
 /**
- * smart monkey Èë¿ÚÀà
+ * smart monkey ï¿½ï¿½ï¿½ï¿½ï¿½
  * smart monkey
  *
  */
@@ -41,27 +41,27 @@ public class runImageScript {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(file));
-			String line = null;
+			String line = reader.readLine();
 			while ((line = reader.readLine()) != null) {
 				System.out.println(line);
 				/*
-				 * »ñÈ¡½Å±¾ÐÅÏ¢
+				 * ï¿½ï¿½È¡ï¿½Å±ï¿½ï¿½ï¿½Ï¢
 				 */
-				String operate = line.split("\t")[0]; 
-				String targetfile = line.split("\t")[1];
+				String operate = line.split(",")[0]; 
+				String targetfile = line.split(",")[1];
 				String srcfile = "SRC_"+targetfile;
-				int startx = Integer.parseInt(line.split("\t")[2]);
-				int starty = Integer.parseInt(line.split("\t")[3]);
-				int endx = Integer.parseInt(line.split("\t")[4]);
-				int endy = Integer.parseInt(line.split("\t")[5]);
-				int scalex = Integer.parseInt(line.split("\t")[6]);
-				int scaley = Integer.parseInt(line.split("\t")[7]);
+				int startx = Integer.parseInt(line.split(",")[2]);
+				int starty = Integer.parseInt(line.split(",")[3]);
+				int endx = Integer.parseInt(line.split(",")[4]);
+				int endy = Integer.parseInt(line.split(",")[5]);
+				int scalex = Integer.parseInt(line.split(",")[6]);
+				int scaley = Integer.parseInt(line.split(",")[7]);
 				/*
-				 * ¶ÁÈ¡Ô­Ê¼Í¼Ïñ
+				 * ï¿½ï¿½È¡Ô­Ê¼Í¼ï¿½ï¿½
 				 */
 				device.takeSnapshot().writeToFile(basePath+srcfile,"png");
 				/*
-				 * Ö´ÐÐÍ¼ÏñÆ¥ÅäËã·¨
+				 * Ö´ï¿½ï¿½Í¼ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ã·¨
 				 */
 				MatchInterface tool = new MatchInterface
 						(basePath+srcfile,basePath+targetfile,startx,starty,endx,endy,scalex,scaley);
@@ -70,11 +70,11 @@ public class runImageScript {
 				System.out.println(result.starty+result.height/2);
 				if(operate.equals("click")){
 					/*
-					 * Ö´ÐÐÃüÁî
+					 * Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					 */
 					device.touch(result.startx+result.width/2,result.starty+result.height/2,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
 					/*
-					 * µÈ´ýÆ¬¿Ì£¬¼ÌÐø½øÐÐ
+					 * ï¿½È´ï¿½Æ¬ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					 */
 					try{
 					    Thread thread = Thread.currentThread();

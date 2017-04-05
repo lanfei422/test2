@@ -62,10 +62,10 @@ public class LcAlgorithm extends SaliencyStrategy {
 		}
 		new findMarkUtil();
 		int nums[] = null;
-		if (method == "kmeans") {
+		if (method .equals( "kmeans")) {
 			nums = findMarkUtil.findMarkUtil_kmeans(saliencyMap, k_num, 255, 0,
 					5);
-		} else if (method == "random") {
+		} else if (method.equals( "random")) {
 			nums = findMarkUtil.findMarkUtil_random(saliencyMap, k_num, 255);
 		}
 		result.setK_num(k_num);
@@ -75,7 +75,7 @@ public class LcAlgorithm extends SaliencyStrategy {
 		return result;
 	}
 /*
- * Í¼Ïñ¶þÖµ»¯
+ * Í¼ï¿½ï¿½ï¿½Öµï¿½ï¿½
  */
 	private static int partTwo(float input) {
 		if (input < threshold) {

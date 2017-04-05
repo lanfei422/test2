@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import com.android.chimpchat.adb.AdbBackend;
 import com.android.chimpchat.adb.AdbChimpDevice;
-import com.android.monkeyrunner.*;
+//import com.android.monkeyrunner.*;
 import com.templatematch.MatchInterface;
 import com.templatematch.MatchResult;
 /**
  * 
- * ²âÊÔÍ¼Ïñ½Å±¾ µ¥Ôª²âÊÔÄ£¿é
+ * ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Å±ï¿½ ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
  *
  */
 public class testMain {
