@@ -55,7 +55,7 @@ public class runSmartmonkey {
 		    device = (AdbChimpDevice) adb.waitForConnection(8000,deviceId);
 		}
 		
-		device.takeSnapshot().writeToFile(basePath+"test","png");
+		device.takeSnapshot().writeToFile(basePath+"test"+System.currentTimeMillis(),"png");
 		Mat img= Highgui.imread(basePath+"tmp.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
 		
 		LocationMain.init(img.width(), img.height(),device);
@@ -83,6 +83,8 @@ public class runSmartmonkey {
 				flag=false;
 		}
 		LocationMain.shutdown();
+		adb.shutdown();
+		System.out.println("Finished!");
 	}
 	
 	public static void run(String basePath,String deviceId) {

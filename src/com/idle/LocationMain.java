@@ -24,7 +24,7 @@ public class LocationMain {
 		disruptor=new Disruptor<Location>(
 				new LocationFactory(),
 				RINGBUFFER_SIZE,
-				Service,
+				Service, 
 				ProducerType.MULTI,
 				new BusySpinWaitStrategy()
 				);
@@ -48,9 +48,28 @@ public class LocationMain {
 	public static void shutdown(){
 		disruptor.shutdown();
 		Service.shutdown();
+		lrp.stop();
 	}
 	
 	public static void handleEventsWith(EventHandler[] eventsHandler){
 		disruptor.handleEventsWith(eventsHandler);
+	}
+	public static void main(String[] args){
+		LocationMain.init(800, 480, null);
+		int[] result=new int[]{55,55,55,55,55,55,55,55,55,55,55};
+		try {
+			Thread.sleep(2000);
+		
+			LocationProducer lp=new LocationProducer(LocationMain.ringBuffer,result,LocationMain.lrp);
+			LocationMain.addSaliencyProducer(lp);
+			Thread.sleep(2000);
+			LocationMain.addRandomProducer(800, 400);
+			Thread.sleep(2000);
+			LocationMain.shutdown();}
+		catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("finished.");
 	}
 }

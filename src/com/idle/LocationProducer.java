@@ -20,7 +20,7 @@ public class LocationProducer implements Runnable{
 
 	private static List<Location> change2List(int[] result){
 		List<Location> rtList=new ArrayList<>(result.length);
-		for(int i=0;i<result.length;i+=2){
+		for(int i=0;i+1<result.length;i+=2){
 			rtList.add(new Location(result[i],result[i+1]));
 		}
 		return rtList;
@@ -30,6 +30,7 @@ public class LocationProducer implements Runnable{
 		if(hasCapacity()){
 			System.out.println("disruptor's capacity belows to 10%");
 		}else{
+			lrp.stop();
 			for(Location loc:inputLocations){
 				long seq=rb.next();
 				Location rb_loc=rb.get(seq);
@@ -48,7 +49,6 @@ public class LocationProducer implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		lrp.stop();
 		addLocation();
 	}
 }

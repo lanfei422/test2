@@ -12,6 +12,9 @@ public class LocationConsumer implements EventHandler<Location> {
 	@Override
 	public void onEvent(Location location, long sequence, boolean endOfBatch) throws Exception {
 		// TODO Auto-generated method stub
-		device.touch(location.getX(), location.getY(),com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+		if(device!=null)
+			device.touch(location.getX(), location.getY(),com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+		else
+			System.out.println("click screen: x-"+location.getX()+" y-"+location.getY());
 	}
 }

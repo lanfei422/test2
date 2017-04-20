@@ -21,13 +21,13 @@ public class Analysis {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Analysis.getFiles("/home/yanlf/Desktop/SmartMonkeyInput");
-//		System.out.println("LC kmeans");
-//		for(int i=0;i<filelist.size();i++){
-//			System.out.println("handle file :"+filelist.get(i));
-//			File curFile=new File(filelist.get(i));
-//			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/SmartMonkeyOutput/LC_Kmeans/"+curFile.getName()+"_kmeans", "lc", 20, "kmeans");
-//		}
+		Analysis.getFiles("/home/yanlf/Desktop/SmartInput");
+		System.out.println("LC kmeans");
+		for(int i=0;i<filelist.size();i++){
+			System.out.println("handle file :"+filelist.get(i));
+			File curFile=new File(filelist.get(i));
+			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/photoAnalysis/40/Random/"+curFile.getName()+"_kmeans", "lc", 40, "random");
+		}
 //		System.out.println("LC random");
 //		for(int i=0;i<filelist.size();i++){
 //			System.out.println("handle file :"+filelist.get(i));
@@ -40,12 +40,12 @@ public class Analysis {
 //			File curFile=new File(filelist.get(i));
 //			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/SmartMonkeyOutput/SR_Kmeans/"+curFile.getName()+"_kmeans", "sr", 20, "kmeans");
 //		}
-		System.out.println("SR random");
-		for(int i=0;i<filelist.size();i++){
-			System.out.println("handle file :"+filelist.get(i));
-			File curFile=new File(filelist.get(i));
-			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/SmartMonkeyOutput/SR_Random/"+curFile.getName()+"_random", "sr", 20, "random");
-		}
+//		System.out.println("SR random");
+//		for(int i=0;i<filelist.size();i++){
+//			System.out.println("handle file :"+filelist.get(i));
+//			File curFile=new File(filelist.get(i));
+//			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/SmartMonkeyOutput/SR_Random/"+curFile.getName()+"_random", "sr", 20, "random");
+//		}
 	}
 
 }
