@@ -11,7 +11,11 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 public class LocationMain {
+	private static Logger logger = LogManager.getLogger(LocationMain.class);
 	public static final int RINGBUFFER_SIZE=256;
 	
 	private static Disruptor<Location> disruptor;
@@ -59,7 +63,6 @@ public class LocationMain {
 		int[] result=new int[]{55,55,55,55,55,55,55,55,55,55,55};
 		try {
 			Thread.sleep(2000);
-		
 			LocationProducer lp=new LocationProducer(LocationMain.ringBuffer,result,LocationMain.lrp);
 			LocationMain.addSaliencyProducer(lp);
 			Thread.sleep(2000);

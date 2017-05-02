@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
@@ -26,6 +28,7 @@ import com.templatematch.MatchResult;
 
 
 public class runSmartmonkey {
+	private static Logger logger = LogManager.getLogger(runSmartmonkey.class);
 	private static AdbChimpDevice device;
 	private static AdbBackend adb;
 	public static void main(String[] args) {
@@ -54,9 +57,10 @@ public class runSmartmonkey {
 			adb = new AdbBackend(); 
 		    device = (AdbChimpDevice) adb.waitForConnection(8000,deviceId);
 		}
-		
-		device.takeSnapshot().writeToFile(basePath+"test"+System.currentTimeMillis(),"png");
+		String fileName=basePath+"test"+System.currentTimeMillis();
+		device.takeSnapshot().writeToFile(fileName,"png");
 		Mat img= Highgui.imread(basePath+"tmp.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+		logger.info("handleing image:"+fileName);
 		
 		LocationMain.init(img.width(), img.height(),device);
 		
