@@ -7,10 +7,10 @@ import org.opencv.core.Scalar;
 import org.opencv.highgui.Highgui;
 
 public class SaliencyResult {
-	private Mat sourceimg;
-	private Mat saliencymap;
-	private int k_num;
-	private int result[];
+	protected Mat sourceimg;
+	protected Mat saliencymap;
+	protected int k_num;
+	protected int result[];
 	public SaliencyResult(){}
 	//Set the Input Parameters
 	public void setSource(String sourcepath){this.sourceimg = Highgui.imread(sourcepath);}
