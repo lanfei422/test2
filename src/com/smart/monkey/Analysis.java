@@ -3,6 +3,7 @@ package com.smart.monkey;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.saliency.SaliencyResultExt;
 import com.saliency.SaliencyUtils;
 
 public class Analysis {
@@ -18,15 +19,33 @@ public class Analysis {
 	public static void imageSalientDetect(String inputFile,String outputFile,
 			String algorithm,int numOfNodes,String method){
 		new SaliencyUtils(inputFile,outputFile,numOfNodes,algorithm,method);
+	}	
+	public static SaliencyResultExt imageSalientDetect(String inputFile,
+			String algorithm,int numOfNodes,String method){
+		return new SaliencyUtils().SaliencyIdle(inputFile,numOfNodes,algorithm,method);
+	}
+	public static SaliencyResultExt imageSalientDetectMerge(String inputFile,
+			String algorithm,int numOfNodes,String method){
+		return new SaliencyUtils().SaliencyIdleMerge(inputFile,numOfNodes,algorithm,method);
+	}
+	public static SaliencyResultExt imageSalientDetectRandom(String inputFile,
+			int numOfNodes,String method){
+		return new SaliencyUtils().SaliencyIdleRandom(inputFile,numOfNodes,method);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Analysis.getFiles("/home/yanlf/Desktop/SmartInput");
-		System.out.println("LC kmeans");
+		
+		Analysis.getFiles("/home/yanlf/Desktop/ClashOfClan");
+//		File curFile=new File(filelist.get(0));
+//		SaliencyResultExt su=Analysis.imageSalientDetectRandom(filelist.get(0), 10, "kmeans");
+//		su.writeResult("/home/yanlf/Desktop/testIdlePicMerge.png");
+		
+//		System.out.println("LC kmeans");
 		for(int i=0;i<filelist.size();i++){
 			System.out.println("handle file :"+filelist.get(i));
 			File curFile=new File(filelist.get(i));
-			Analysis.imageSalientDetect(filelist.get(i), "/home/yanlf/Desktop/photoAnalysis/40/Random/"+curFile.getName()+"_kmeans", "lc", 40, "random");
+			SaliencyResultExt su=Analysis.imageSalientDetectRandom(filelist.get(i), 10, "kmeans");
+			su.writeResult("/home/yanlf/Desktop/pic_out_all/ClashOfClan/"+curFile.getName());
 		}
 //		System.out.println("LC random");
 //		for(int i=0;i<filelist.size();i++){

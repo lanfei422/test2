@@ -7,12 +7,14 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
 import com.android.chimpchat.adb.AdbBackend;
 import com.android.chimpchat.adb.AdbChimpDevice;
 import com.android.chimpchat.core.IChimpImage;
+import com.idle.LocationConsumer;
 import com.idle.LocationMain;
 import com.idle.LocationProducer;
 import com.saliency.ImageObj;
@@ -52,6 +54,7 @@ public class runSmartmonkey {
 	}
 	
 	public static void runIdle(String basePath,String deviceId,int maxstep){
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);  
 		System.out.println("start!");
 		if (adb==null){ 
 			adb = new AdbBackend(); 
@@ -59,10 +62,11 @@ public class runSmartmonkey {
 		}
 		String fileName=basePath+"test"+System.currentTimeMillis();
 		device.takeSnapshot().writeToFile(fileName,"png");
-		Mat img= Highgui.imread(basePath+"tmp.png", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+		Mat img= Highgui.imread(fileName, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
 		logger.info("handleing image:"+fileName);
 		
 		LocationMain.init(img.width(), img.height(),device);
+		
 		
 		boolean flag=true;
 		int count=0;
@@ -70,22 +74,27 @@ public class runSmartmonkey {
 			String srcfile = "SRC_"+System.currentTimeMillis();
 			device.takeSnapshot().writeToFile(basePath+srcfile,"png");
 			
-			SaliencyUtils su=new SaliencyUtils(basePath+srcfile+".png",basePath+srcfile+"_target.png",20,"sr","kmeans");
+			LocationMain.addRandomProducer(img.width(), img.height());
+			logger.info("handleing image:"+basePath+srcfile+".png");
+			SaliencyUtils su=new SaliencyUtils(basePath+srcfile,basePath+srcfile+"_target.png",20,"sr","random");
 			int[] result=su.getSaliencyResult().getResult();
+			
 			LocationProducer lp=new LocationProducer(LocationMain.ringBuffer,result,LocationMain.lrp);
 			LocationMain.addSaliencyProducer(lp);
 			
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			LocationMain.addRandomProducer(img.width(), img.height());
 			count++;
 			if(count==maxstep)
 				flag=false;
 		}
+		
 		LocationMain.shutdown();
 		adb.shutdown();
 		System.out.println("Finished!");

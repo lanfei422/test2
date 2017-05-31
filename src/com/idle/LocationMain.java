@@ -58,6 +58,10 @@ public class LocationMain {
 	public static void handleEventsWith(EventHandler[] eventsHandler){
 		disruptor.handleEventsWith(eventsHandler);
 	}
+	
+	public static void addConsumer(LocationConsumer lc){
+		disruptor.handleEventsWith(lc);
+	}
 	public static void main(String[] args){
 		LocationMain.init(800, 480, null);
 		int[] result=new int[]{55,55,55,55,55,55,55,55,55,55,55};

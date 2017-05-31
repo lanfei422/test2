@@ -13,7 +13,7 @@ public class ListDevices {
 	public String[] deviceName = new String[MAX_DEVICE];;
 	public int devicenum;
 	public ListDevices(){
-		String[] cmd = {"/Users/suncl/android/android-sdk-macosx/platform-tools/adb","devices"};
+		String[] cmd = {"/home/yanlf/android-sdks/platform-tools/adb","devices"};
 		String[] result = null;
 		try {
 			Process pid = Runtime.getRuntime().exec(cmd);
@@ -22,8 +22,10 @@ public class ListDevices {
 			int devicenum = 0;
 			while ((line = reader.readLine()) != null){
 				if(devicenum!=0 && !line.isEmpty()){
+					String[] args=line.split("\t");
 					deviceId[devicenum] = line.split("\t")[0];
-					deviceName[devicenum] = line.split("\t")[1];
+					if(args.length==2)
+						deviceName[devicenum] = line.split("\t")[1];
 					System.out.println(devicenum+": "+line);
 				}
 				devicenum ++;
