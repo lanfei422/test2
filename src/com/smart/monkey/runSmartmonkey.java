@@ -70,31 +70,34 @@ public class runSmartmonkey {
 		
 		boolean flag=true;
 		int count=0;
+		long costTime=0;
 		while(flag){
+			long curTime=System.currentTimeMillis();
 			String srcfile = "SRC_"+System.currentTimeMillis();
 			device.takeSnapshot().writeToFile(basePath+srcfile,"png");
 			
 			LocationMain.addRandomProducer(img.width(), img.height());
 			logger.info("handleing image:"+basePath+srcfile+".png");
-			SaliencyUtils su=new SaliencyUtils(basePath+srcfile,basePath+srcfile+"_target.png",20,"sr","random");
+			SaliencyUtils su=new SaliencyUtils(basePath+srcfile,basePath+srcfile+"_target.png",10,"sr","random");
 			int[] result=su.getSaliencyResult().getResult();
 			
 			LocationProducer lp=new LocationProducer(LocationMain.ringBuffer,result,LocationMain.lrp);
 			LocationMain.addSaliencyProducer(lp);
 			
+			costTime+=System.currentTimeMillis()-curTime;
 			try {
-				Thread.sleep(200);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			LocationMain.addRandomProducer(img.width(), img.height());
+//			LocationMain.addRandomProducer(img.width(), img.height());
 			count++;
-			if(count==maxstep)
+			if(count>=maxstep)
 				flag=false;
 		}
-		
+		System.out.println("cost time is :"+costTime);
 		LocationMain.shutdown();
 		adb.shutdown();
 		System.out.println("Finished!");

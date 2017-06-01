@@ -24,7 +24,7 @@ public class LocationRandomPublisher implements Runnable {
 		while(!flag){
 			addLocation();
 			try {
-				Thread.sleep(2000L);
+				Thread.sleep(200L);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
